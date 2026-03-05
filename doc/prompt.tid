@@ -1,0 +1,251 @@
+created: 20260305110542031
+modified: 20260305110542031
+rdt.order: 8
+rdt.plugin-key: doc-template
+rdt.plugin-name: doc template
+rdt.plugin-subtitle: Branded documentation system for rimir plugins
+rdt.section: Prompt
+title: $:/plugins/rimir/doc-template/doc/prompt
+type: text/vnd.tiddlywiki
+
+<$transclude $tiddler="$:/plugins/rimir/doc-template/templates/page">
+<$fill $name="body">
+
+!! How to use this prompt
+
+Copy the prompt below and paste it into your conversation when you need documentation created for a new or existing plugin. Replace the placeholder values in the preamble, then let the AI generate all 7 files.
+
+---
+
+!! Prompt
+
+```
+Create documentation for the TiddlyWiki plugin described below. Generate exactly 7 .tid files following the established doc-template system.
+
+PLUGIN DETAILS (fill these in):
+- Plugin directory: mywiki/plugins/<slug>/
+- Plugin key: <slug>
+- Display name: <Name>
+- Version: <x.y.z>
+- Subtitle: <one-line description>
+- Hub category: <infrastructure | editor-vcs | ui-framework>
+- Hub category name: <Infrastructure | Editor & Version Control | UI Framework & Domain Model>
+- Hub order: <number>
+
+Read ALL source files in the plugin directory before writing documentation. Understand the full codebase first.
+
+---
+
+FIELD RULES
+
+Every doc tiddler must have these fields in the header:
+
+    title: $:/plugins/rimir/<slug>/doc/<section>
+    type: text/vnd.tiddlywiki
+    rdt.plugin-key: <slug>
+    rdt.section: <Section Name>
+    rdt.order: <1-7>
+    rdt.plugin-name: <Display Name>
+    rdt.plugin-subtitle: <one-line description>
+
+The Overview tiddler (and ONLY the Overview) also needs:
+
+    rdt.hub-category: <category-key>
+    rdt.hub-order: <number>
+    rdt.hub-category-name: <Category Display Name>
+
+---
+
+BODY TEMPLATE
+
+Every tiddler body must be wrapped in the page template:
+
+    <$transclude $tiddler="$:/plugins/rimir/doc-template/templates/page">
+    <$fill $name="body">
+
+    ... content here ...
+
+    </$fill>
+    </$transclude>
+
+Use `!!` for section headings (H2). Do not use H1 (`!`). Use `!!!` sparingly for subsections only when needed.
+
+---
+
+CALLOUT SYNTAX
+
+Four types available — use where appropriate:
+
+    <$transclude $tiddler="$:/plugins/rimir/doc-template/templates/callout" type="info">
+    <$fill $name="body">Informational note.</$fill>
+    </$transclude>
+
+Types: info (blue, explanatory notes), warning (amber, gotchas/limitations), tip (green, helpful advice), danger (red, critical issues/breaking changes).
+
+---
+
+FILE 1: doc-overview.tid (section: Overview, order: 1)
+
+Purpose: First impression. What this plugin does and why someone would use it.
+
+Required headings and content:
+- !! What it does — 1-2 paragraph plain-language summary
+- !! Features — bullet list using ''bold'' for feature names, em-dash for description
+  Format: * ''Feature name'' — what it does
+- !! Prerequisites — what's needed (Node.js server mode, config files, other plugins)
+- !! Quick start — numbered steps to get running, with code blocks
+
+Include an info or tip callout for the most important thing a new user should know.
+
+End with a plugin files table:
+    |!File |!Role |
+    |`filename` |Description |
+
+---
+
+FILE 2: doc-architecture.tid (section: Architecture, order: 2)
+
+Purpose: How the plugin works internally. For developers who need to understand or modify it.
+
+Required headings and content:
+- !! Data flow — numbered steps tracing a request/action from trigger to result
+  (e.g., "1. Browser: user clicks button" → "2. Widget dispatches message" → ...)
+- !! Components — table of files/modules with their layer (Server/Browser/Filesystem) and role
+    |!Component |!Layer |!Role |
+- !! Design decisions — bullet list explaining WHY, not just what
+  Format: * ''Decision'' — rationale
+  Cover: security boundaries, performance trade-offs, API choices, data flow direction
+
+Include a warning or danger callout for the single most important architectural gotcha.
+
+---
+
+FILE 3: doc-dev-workflow.tid (section: Dev Workflow, order: 3)
+
+Purpose: Practical guide for working on this plugin day-to-day.
+
+Required headings and content:
+- !! Plugin files — table of all files with roles
+    |!File |!Role |
+- !! Restart rules — table showing which changes need server restart
+    |!Change |!Restart needed? |
+  Categories: JS modules (always yes), .tid files in plugins (yes — shadow tiddlers),
+  external config files (depends), browser-only tiddlers (no if not in plugin)
+- !! [Task-specific workflow] — step-by-step for the most common dev task
+  (e.g., "Adding a new action", "Defining a new type", "Creating a component")
+- !! Testing — how to verify changes (curl commands, browser steps, etc.)
+- !! Version history — table of versions and changes
+    |!Version |!Changes |
+
+Include a tip callout with the most useful dev shortcut or gotcha workaround.
+On Windows, mention: taskkill //F //PID <pid> //T for killing the server.
+
+---
+
+FILE 4: doc-examples.tid (section: Examples, order: 4)
+
+Purpose: Copy-paste recipes. Show, don't tell.
+
+Required content:
+- 3-5 practical examples progressing from simple to complex
+- Each example gets its own !! heading
+- Every example must include a complete code block that can be copied and used
+- Show both the configuration/setup AND the usage
+- For plugins with APIs: include curl commands with full headers
+- For plugins with widgets: include complete wikitext markup
+- For plugins with config files: include full JSON examples
+
+Include a warning callout for the most common mistake when using the plugin.
+
+Format for code blocks:
+    ```json
+    { ... }
+    ```
+    or
+    ```
+    <$widget .../>
+    ```
+
+---
+
+FILE 5: doc-faq.tid (section: FAQ, order: 5)
+
+Purpose: Answer the questions that come up repeatedly. Address the "why" behind design choices.
+
+Required content:
+- 5-7 questions covering:
+  1. The most common confusion or mistake
+  2. A "why did you do X instead of Y" design rationale question
+  3. A security or safety question (if applicable)
+  4. A limitations/edge-case question
+  5. A "how do I extend/customise this" question
+
+Format:
+    !! Q: Question text here?
+
+    Answer in 1-3 paragraphs. Be direct. Start with "Yes", "No", or the key fact.
+
+Do NOT use callouts in FAQ — the Q&A format is sufficient.
+
+---
+
+FILE 6: doc-reference.tid (section: Reference, order: 6)
+
+Purpose: Lookup tables. No prose — just structured data for quick reference.
+
+Required content (include all that apply):
+- !! API endpoints — one section per endpoint with method, path, parameters, response codes
+    |!Parameter |!Required |!Description |
+    |!HTTP |!Condition |
+- !! Widget attributes — table per widget
+    |!Attribute |!Required |!Description |
+- !! Config/schema — JSON structure with field descriptions
+    |!Field |!Type |!Description |
+- !! State tiddlers — every $:/state/ and $:/temp/ tiddler the plugin uses
+    |!Tiddler |!Set by |!Description |
+- !! CSS classes — if the plugin defines any
+    |!Class |!Element |
+
+Keep descriptions terse (sentence fragments, not full sentences).
+
+---
+
+FILE 7: doc-tw-internals.tid (section: TW Internals, order: 7)
+
+Purpose: TiddlyWiki platform knowledge needed to understand this plugin. For developers unfamiliar with TW internals.
+
+Required content:
+- One !! heading per TW concept the plugin relies on
+- Explain the TW mechanism first, THEN how this plugin uses it
+- Cover: hooks, module types, filter operators, widget patterns, boot sequence,
+  state management, syncer behaviour — whatever applies
+
+Typical topics by plugin type:
+- Server plugins: route module-type, hooks (th-server-command-post-start),
+  exports.before, CSRF validation, skinny vs fat tiddlers
+- Browser plugins: action widget pattern, tm-http-request, $:/temp/ tiddlers,
+  EditTemplate/ViewTemplate tags, refresh mechanism
+- Type/schema plugins: filter operators, $importvariables, shadow tiddler loading,
+  plugin.info scanning, all[shadows+tiddlers]
+
+Include a danger callout for any TW behaviour that is surprising or has caused bugs.
+
+---
+
+STYLE RULES
+
+1. Bold: use ''double single quotes'' (TW syntax), not markdown **asterisks**
+2. Code: use `backticks` for inline code, triple backticks for blocks
+3. Tables: use TW pipe syntax with |!Header| for header cells
+4. Lists: use * for bullets, # for numbered steps
+5. Callouts: 1-2 per doc file maximum. Don't overuse them.
+6. Tone: direct, technical, no fluff. Write for a developer who knows TiddlyWiki basics.
+7. Length: aim for 40-80 lines of content per file (excluding template wrapper).
+   Overview can be longer (up to 100 lines). Reference can be as long as needed.
+8. No H1 headings (single !). Use !! (H2) for sections, !!! (H3) for subsections.
+9. Feature bullets: * ''Name'' — description (em-dash, not colon)
+10. Don't document what doesn't exist. Only describe actual current behaviour.
+```
+
+</$fill>
+</$transclude>

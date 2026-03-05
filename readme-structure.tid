@@ -1,0 +1,51 @@
+created: 20260305110542033
+modified: 20260305110542033
+title: $:/plugins/rimir/doc-template/readme-structure
+type: text/vnd.tiddlywiki
+
+! Readme Structure Guide
+
+Every rimir plugin's `readme.tid` must follow this structure. The readme is the first tab users see in the plugin detail view and should provide enough information to decide whether to install the plugin.
+
+!! Required sections
+
+!!! 1. Title and description
+
+The `!` heading should be the plugin's display name (lowercase). Follow with one to two sentences describing what the plugin does.
+
+!!! 2. Key features
+
+A bullet list of the most important features, each with a bold label and brief description:
+
+```
+* ''Feature name'' — what it does
+```
+
+!!! 3. Prerequisites
+
+List any external dependencies, required tools, or other plugins. If none, state "No external prerequisites."
+
+!!! 4. Quick start
+
+Minimal instructions to get started — install steps, basic usage example, or first configuration action.
+
+!! Example
+
+```
+! my plugin
+
+One sentence describing the plugin purpose.
+
+!! Key features
+
+* ''Feature A'' — does something useful
+* ''Feature B'' — does something else
+
+!! Prerequisites
+
+* some-tool (required for feature B)
+
+!! Quick start
+
+Install plugin. Use `<$my-widget/>` in any tiddler.
+```

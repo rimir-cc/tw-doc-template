@@ -1,0 +1,50 @@
+created: 20260305110542030
+modified: 20260305110542030
+rdt.hub-category: infrastructure
+rdt.hub-category-name: Infrastructure
+rdt.hub-order: 1
+rdt.order: 1
+rdt.plugin-key: doc-template
+rdt.plugin-name: doc template
+rdt.plugin-subtitle: Branded documentation system for rimir plugins
+rdt.section: Overview
+title: $:/plugins/rimir/doc-template/doc/overview
+type: text/vnd.tiddlywiki
+
+<$transclude $tiddler="$:/plugins/rimir/doc-template/templates/page">
+<$fill $name="body">
+
+!! What it does
+
+Doc Template provides a unified documentation system for all rimir TiddlyWiki plugins. It renders branded pages with a consistent layout, auto-discovers doc tiddlers via field-based metadata, and organises them into a navigable hub.
+
+!! Features
+
+* ''Branded layout'' — dark header banner with amber accent, author and version badges, breadcrumb navigation
+* ''Auto-discovery hub'' — card grid generated from `rdt.*` fields on Overview tiddlers, grouped by category
+* ''In-place navigation'' — when opened from the hub, plugin docs navigate via buttons (no new tiddlers); when opened directly, navigation uses standard TW links
+* ''Tab system'' — each plugin's doc sections render as tabs, ordered by `rdt.order`
+* ''Callout boxes'' — four types (`info`, `warning`, `tip`, `danger`) via a reusable template
+* ''Category system'' — fully data-driven; add a new category by setting `rdt.hub-category` + `rdt.hub-category-name` on any Overview tiddler
+
+!! How it works
+
+Each plugin creates doc tiddlers (typically `doc-overview.tid`, `doc-architecture.tid`, etc.) with `rdt.*` fields. The hub discovers all Overview tiddlers, groups them by category, and renders clickable cards. Clicking a card shows that plugin's doc page with tabs for each section.
+
+<$transclude $tiddler="$:/plugins/rimir/doc-template/templates/callout" type="info">
+<$fill $name="body">
+No tags are needed — discovery is entirely field-based using `rdt.section` and `rdt.plugin-key`.
+</$fill>
+</$transclude>
+
+!! Plugin files
+
+|!File |!Role |
+|`hub.tid` |Hub page — card grid with category grouping |
+|`macros.tid` |`rdt.plugin-card` procedure for rendering cards |
+|`templates/page.tid` |Main doc page layout (header, breadcrumb, tabs, footer) |
+|`templates/callout.tid` |Reusable callout box component |
+|`styles.tid` |All CSS for the doc system (`rdt-*` prefix) |
+
+</$fill>
+</$transclude>

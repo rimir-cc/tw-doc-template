@@ -1,0 +1,71 @@
+created: 20260305110542029
+modified: 20260305110542029
+rdt.order: 2
+rdt.plugin-key: doc-template
+rdt.plugin-name: doc template
+rdt.plugin-subtitle: Branded documentation system for rimir plugins
+rdt.section: Architecture
+title: $:/plugins/rimir/doc-template/doc/architecture
+type: text/vnd.tiddlywiki
+
+<$transclude $tiddler="$:/plugins/rimir/doc-template/templates/page">
+<$fill $name="body">
+
+!! Discovery mechanism
+
+Doc tiddlers are discovered entirely via fields — no tags required:
+
+* `rdt.section` — identifies a tiddler as a doc section (e.g., `Overview`, `Architecture`)
+* `rdt.plugin-key` — groups sections by plugin (e.g., `runner`, `realms`)
+* `rdt.order` — controls tab ordering within a plugin
+
+The hub filter: `[all[shadows+tiddlers]rdt.section[Overview]has[rdt.hub-category]]` finds all Overview tiddlers that declare a hub category.
+
+!! Hub state machine
+
+The hub (`hub.tid`) has two modes controlled by the state tiddler `$:/state/rimir/doc-template/hub/selected`:
+
+* ''Card grid'' (default) — when state is empty, renders the category-grouped card grid
+* ''Plugin detail'' — when state holds a doc tiddler title, transcludes that tiddler's page
+
+This allows in-place navigation without opening new tiddlers.
+
+!! rdt-hub-context variable
+
+When a doc page is rendered from the hub, `rdt-hub-context` is set to `"yes"`. This changes navigation behaviour:
+
+* ''Hub context'' (`rdt-hub-context = "yes"`) — breadcrumb and footer use `<$button>` to update hub state (in-place navigation)
+* ''Direct context'' (no hub context) — breadcrumb and footer use `<$link>` to open tiddlers normally
+
+!! Page template
+
+`templates/page.tid` renders the full doc page layout:
+
+# Checks `rdt-rendering` variable — if `"yes"`, outputs raw `<$slot $name="body">` to prevent infinite recursion when tab content is transcluded
+# Sets variables from `currentTiddler` fields: `currentPluginKey`, `currentPluginName`, `currentPluginVersion`, `currentPluginSubtitle`
+# Builds `tabState` per plugin: `$:/state/rimir/doc-template/tab/<plugin-key>`
+# Resolves `selectedTab` — uses stored state if valid, falls back to `currentTiddler`
+# Renders header, breadcrumb, tab bar, content (via `<$transclude $tiddler=<<selectedTab>>>`), and footer
+
+<$transclude $tiddler="$:/plugins/rimir/doc-template/templates/callout" type="warning">
+<$fill $name="body">
+The `rdt-rendering` guard is critical. Without it, transcluding a tab's content would re-render the full page template, creating infinite recursion.
+</$fill>
+</$transclude>
+
+!! Category system
+
+Categories are fully data-driven via three fields on Overview tiddlers:
+
+* `rdt.hub-category` — machine key (e.g., `infrastructure`)
+* `rdt.hub-category-name` — display name (e.g., `Infrastructure`)
+* `rdt.hub-order` — sort order within the hub
+
+The hub uses `each[rdt.hub-category]` to deduplicate categories, then lists plugins within each category sorted by `rdt.plugin-name`.
+
+!! Macro
+
+`rdt.plugin-card(title)` — a single-parameter procedure that reads `rdt.plugin-name`, `rdt.plugin-version`, and `rdt.plugin-subtitle` from the given tiddler and renders a clickable card button.
+
+</$fill>
+</$transclude>

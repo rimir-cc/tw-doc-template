@@ -1,0 +1,90 @@
+created: 20260305110542034
+modified: 20260305110542034
+title: $:/plugins/rimir/doc-template/templates/page
+type: text/vnd.tiddlywiki
+
+\procedure rdt-render-tabs()
+<$list filter="[all[shadows+tiddlers]has[rdt.section]rdt.plugin-key<currentPluginKey>nsort[rdt.order]]" variable="tab-tiddler">
+<$let tabSection={{{ [<tab-tiddler>get[rdt.section]] }}} isActive={{{ [<tab-tiddler>match<selectedTab>then[rdt-tab rdt-tab-active]else[rdt-tab]] }}}>
+<$button class=<<isActive>> set=<<tabState>> setTo=<<tab-tiddler>>><<tabSection>></$button>
+</$let>
+</$list>
+\end
+
+\procedure rdt-render-footer()
+<div class="rdt-footer">
+<div class="rdt-footer-heading">Related plugins</div>
+<div class="rdt-footer-links">
+<$list filter="[all[shadows+tiddlers]has[rdt.section]rdt.section[Overview]!rdt.plugin-key<currentPluginKey>sort[rdt.plugin-name]]" variable="related">
+<%if [<rdt-hub-context>match[yes]] %>
+<$button class="tc-btn-invisible rdt-link-btn" set="$:/state/rimir/doc-template/hub/selected" setTo=<<related>>><$text text={{{ [<related>get[rdt.plugin-name]] }}}/></$button>
+<%else%>
+<$link to=<<related>>><$text text={{{ [<related>get[rdt.plugin-name]] }}}/></$link>
+<%endif%>
+</$list>
+</div>
+<div class="rdt-footer-hub">
+<%if [<rdt-hub-context>match[yes]] %>
+<$button class="tc-btn-invisible rdt-link-btn" set="$:/state/rimir/doc-template/hub/selected" setTo="">← Back to Plugin Hub</$button>
+<%else%>
+<$link to="$:/plugins/rimir/doc-template/hub">← Back to Plugin Hub</$link>
+<%endif%>
+</div>
+</div>
+\end
+
+<%if [<rdt-rendering>match[yes]] %>
+<$slot $name="body">
+//No content provided.//
+</$slot>
+<%else%>
+<$let
+  rdt-rendering="yes"
+  currentPluginKey={{{ [<currentTiddler>get[rdt.plugin-key]] }}}
+  currentPluginName={{{ [<currentTiddler>get[rdt.plugin-name]] }}}
+  currentPluginVersion={{{ [[$:/plugins/rimir/]addsuffix<currentPluginKey>get[version]] }}}
+  currentPluginSubtitle={{{ [<currentTiddler>get[rdt.plugin-subtitle]] }}}
+  tabState={{{ [[$:/state/rimir/doc-template/tab/]addsuffix{!!rdt.plugin-key}] }}}
+  selectedTab={{{ [<tabState>get[text]has[rdt.section]] :else[<currentTiddler>] }}}
+  currentSection={{{ [<selectedTab>get[rdt.section]] }}}
+>
+<div class="rdt-page">
+
+<!-- Header -->
+<div class="rdt-header">
+<div class="rdt-header-title"><$text text=<<currentPluginName>>/></div>
+<div class="rdt-header-subtitle"><$text text=<<currentPluginSubtitle>>/></div>
+<div class="rdt-header-meta">
+<span class="rr-badge-rect rdt-badge-author">rimir</span>
+<span class="rr-badge-rect rdt-badge-version">v<$text text=<<currentPluginVersion>>/></span>
+</div>
+</div>
+
+<!-- Breadcrumb -->
+<div class="rdt-breadcrumb">
+<%if [<rdt-hub-context>match[yes]] %>
+<$button class="tc-btn-invisible rdt-link-btn" set="$:/state/rimir/doc-template/hub/selected" setTo="">Hub</$button>
+<%else%>
+<$link to="$:/plugins/rimir/doc-template/hub">Hub</$link>
+<%endif%>
+<span class="rdt-breadcrumb-sep">›</span>
+<$text text=<<currentPluginName>>/>
+<span class="rdt-breadcrumb-sep">›</span>
+<$text text=<<currentSection>>/>
+</div>
+
+<!-- Tabs -->
+<div class="rdt-tabs">
+<<rdt-render-tabs>>
+</div>
+
+<!-- Content -->
+<div class="rdt-content">
+<$transclude $tiddler=<<selectedTab>> />
+
+<<rdt-render-footer>>
+</div>
+
+</div>
+</$let>
+<%endif%>

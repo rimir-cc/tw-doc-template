@@ -1,0 +1,45 @@
+created: 20260305110542031
+modified: 20260305110542031
+rdt.order: 7
+rdt.plugin-key: doc-template
+rdt.plugin-name: doc template
+rdt.plugin-subtitle: Branded documentation system for rimir plugins
+rdt.section: TW Internals
+title: $:/plugins/rimir/doc-template/doc/tw-internals
+type: text/vnd.tiddlywiki
+
+<$transclude $tiddler="$:/plugins/rimir/doc-template/templates/page">
+<$fill $name="body">
+
+!! $transclude does NOT change currentTiddler
+
+When you write `<$transclude $tiddler="SomeOther"/>`, TiddlyWiki renders that tiddler's content but `currentTiddler` remains unchanged. This is why `readme.tid` needs a `<$tiddler tiddler="...">` wrapper — without it, the page template reads fields from the wrong tiddler.
+
+!! $slot / $fill for content injection
+
+The page template uses `<$slot $name="body">` to define where doc content appears. Callers provide content via `<$fill $name="body">...</$fill>` inside the `<$transclude>`. This is TiddlyWiki's parameterised transclusion mechanism — similar to named slots in component frameworks.
+
+<$transclude $tiddler="$:/plugins/rimir/doc-template/templates/callout" type="info">
+<$fill $name="body">
+`<$slot>` can only receive `<$fill>` from the immediate `<$transclude>` caller. Nested transclusions cannot pass fills through intermediate levels.
+</$fill>
+</$transclude>
+
+!! each[] filter for category deduplication
+
+The hub uses `each[rdt.hub-category]` to get one representative tiddler per category. The `each` operator keeps only the first tiddler with a unique value for the given field. Combined with `nsort[rdt.hub-order]`, this ensures categories appear in the intended order.
+
+!! has[] for field-based discovery
+
+`has[rdt.section]` returns all tiddlers that have the `rdt.section` field set (regardless of value). Combined with field-value filters like `rdt.plugin-key<currentPluginKey>`, this forms the discovery mechanism for building tab lists.
+
+!! State tiddler pattern for tabs
+
+Tab state is stored in `$:/state/rimir/doc-template/tab/<plugin-key>`. The `<$button>` widget's `set`/`setTo` attributes write the selected tab tiddler's title into this state tiddler. On render, `selectedTab` reads this state and falls back to `currentTiddler` if the stored value is invalid (no `rdt.section` field).
+
+!! all[shadows+tiddlers] filter
+
+Doc tiddlers are shadow tiddlers (bundled in a plugin). The filter prefix `all[shadows+tiddlers]` ensures both shadow tiddlers and regular tiddlers are searched. Using just `all[tiddlers]` would miss plugin-bundled docs unless they had been overridden.
+
+</$fill>
+</$transclude>

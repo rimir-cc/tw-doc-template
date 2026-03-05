@@ -1,0 +1,72 @@
+created: 20260305110542029
+modified: 20260305110542029
+rdt.order: 3
+rdt.plugin-key: doc-template
+rdt.plugin-name: doc template
+rdt.plugin-subtitle: Branded documentation system for rimir plugins
+rdt.section: Dev Workflow
+title: $:/plugins/rimir/doc-template/doc/dev-workflow
+type: text/vnd.tiddlywiki
+
+<$transclude $tiddler="$:/plugins/rimir/doc-template/templates/page">
+<$fill $name="body">
+
+!! Adding docs to a new plugin
+
+# Create doc tiddler files in the plugin directory (e.g., `mywiki/plugins/my-plugin/`)
+# Each file needs the standard `rdt.*` fields (see field reference below)
+# The Overview tiddler needs the additional hub fields (`rdt.hub-category`, `rdt.hub-order`, `rdt.hub-category-name`)
+# Create a `readme.tid` with a `$tiddler` wrapper to set `currentTiddler` before transcluding the Overview
+
+!! File naming convention
+
+Files on disk follow the pattern `doc-<section>.tid`. TiddlyWiki resolves the title from the `title` field inside the file:
+
+|!Disk file |!Tiddler title |
+|`doc-overview.tid` |`$:/plugins/rimir/<slug>/doc/overview` |
+|`doc-architecture.tid` |`$:/plugins/rimir/<slug>/doc/architecture` |
+|`doc-faq.tid` |`$:/plugins/rimir/<slug>/doc/faq` |
+
+!! Field reference
+
+|!Field |!Required on |!Description |
+|`rdt.plugin-key` |All doc tiddlers |Plugin identifier (e.g., `runner`, `realms`) |
+|`rdt.section` |All doc tiddlers |Section name — used as tab label |
+|`rdt.order` |All doc tiddlers |Tab sort order (numeric, 1 = first) |
+|`rdt.plugin-name` |All doc tiddlers |Display name for header and cards |
+|`rdt.plugin-subtitle` |All doc tiddlers |Subtitle for header and card description |
+|`rdt.hub-category` |Overview only |Category key for hub grouping |
+|`rdt.hub-order` |Overview only |Sort order within hub |
+|`rdt.hub-category-name` |Overview only |Display name for category heading |
+
+!! Adding a new category
+
+No code changes needed. Just set the three hub fields on any Overview tiddler:
+
+* `rdt.hub-category: my-category`
+* `rdt.hub-category-name: My Category`
+* `rdt.hub-order: 5`
+
+The hub will automatically create a new category section.
+
+!! Restart rules
+
+|!Change |!Restart needed? |
+|Edit any `.tid` file in a plugin |Yes — plugin shadow tiddlers |
+|Edit `hub.tid`, `macros.tid` |Yes — plugin shadow tiddlers |
+|Edit `styles.tid` |Yes — plugin shadow tiddlers |
+|Edit `templates/page.tid` or `templates/callout.tid` |Yes — plugin shadow tiddlers |
+
+<$transclude $tiddler="$:/plugins/rimir/doc-template/templates/callout" type="tip">
+<$fill $name="body">
+All doc-template files are plugin shadow tiddlers. Any change requires a server restart and browser hard-refresh.
+</$fill>
+</$transclude>
+
+!! Version history
+
+|!Version |!Changes |
+|0.1.0 |Initial release — hub, page template, callout template, styles |
+
+</$fill>
+</$transclude>

@@ -1,0 +1,308 @@
+created: 20260305110542033
+modified: 20260305110542033
+tags: $:/tags/Stylesheet
+title: $:/plugins/rimir/doc-template/styles
+type: text/vnd.tiddlywiki
+
+/* ============================================================
+   rimir Doc Template — Branded Documentation Styles
+   Prefix: rdt-
+   ============================================================ */
+
+/* --- Page wrapper --- */
+.rdt-page {
+    max-width: 1500px;
+    margin: 0 auto;
+}
+
+/* --- Header banner --- */
+.rdt-header {
+    background: #1e293b;
+    border-top: 4px solid #d97706;
+    border-radius: 6px 6px 0 0;
+    padding: 20px 24px;
+    margin-bottom: 0;
+    color: #fff;
+}
+
+.rdt-header-title {
+    font-size: 1.5em;
+    font-weight: 700;
+    margin: 0 0 4px 0;
+    color: #fff;
+}
+
+.rdt-header-subtitle {
+    font-size: 0.95em;
+    color: #94a3b8;
+    margin: 0;
+}
+
+.rdt-header-meta {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: 10px;
+}
+
+.rdt-badge-author {
+    background: #d97706;
+    color: #fff;
+}
+
+.rdt-badge-version {
+    background: #334155;
+    color: #cbd5e1;
+}
+
+/* --- Breadcrumb --- */
+.rdt-breadcrumb {
+    font-size: 0.85em;
+    color: <<colour muted-foreground>>;
+    padding: 8px 24px;
+    background: <<colour page-background>>;
+    border-left: 1px solid <<colour tiddler-border>>;
+    border-right: 1px solid <<colour tiddler-border>>;
+}
+
+.rdt-breadcrumb a {
+    color: #d97706;
+    text-decoration: none;
+}
+
+.rdt-breadcrumb a:hover {
+    text-decoration: underline;
+}
+
+.rdt-breadcrumb-sep {
+    margin: 0 6px;
+    color: <<colour muted-foreground>>;
+}
+
+/* --- Tab navigation --- */
+.rdt-tabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0;
+    border-bottom: 2px solid <<colour tiddler-border>>;
+    background: <<colour page-background>>;
+    padding: 0 24px;
+    border-left: 1px solid <<colour tiddler-border>>;
+    border-right: 1px solid <<colour tiddler-border>>;
+}
+
+.rdt-tab {
+    padding: 8px 16px;
+    font-size: 0.9em;
+    font-weight: 500;
+    color: <<colour muted-foreground>>;
+    text-decoration: none;
+    border-bottom: 2px solid transparent;
+    margin-bottom: -2px;
+    transition: color 0.15s, border-color 0.15s;
+    cursor: pointer;
+    background: none;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    font-family: inherit;
+    line-height: inherit;
+}
+
+.rdt-tab:hover {
+    color: <<colour foreground>>;
+    text-decoration: none;
+}
+
+.rdt-tab-active {
+    color: #d97706;
+    border-bottom-color: #d97706;
+    font-weight: 600;
+}
+
+/* --- Content area --- */
+.rdt-content {
+    padding: 24px;
+    background: <<colour tiddler-background>>;
+    border-left: 1px solid <<colour tiddler-border>>;
+    border-right: 1px solid <<colour tiddler-border>>;
+    border-bottom: 1px solid <<colour tiddler-border>>;
+    border-radius: 0 0 6px 6px;
+    line-height: 1.6;
+}
+
+.rdt-content h2 {
+    font-size: 1.25em;
+    font-weight: 600;
+    margin: 1.5em 0 0.5em 0;
+    padding-bottom: 4px;
+    border-bottom: 1px solid <<colour tiddler-border>>;
+    color: <<colour foreground>>;
+}
+
+.rdt-content h2:first-child {
+    margin-top: 0;
+}
+
+.rdt-content h3 {
+    font-size: 1.05em;
+    font-weight: 600;
+    margin: 1.2em 0 0.4em 0;
+    color: <<colour foreground>>;
+}
+
+.rdt-content table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1em 0;
+    font-size: 0.9em;
+}
+
+.rdt-content th {
+    text-align: left;
+    padding: 8px 12px;
+    background: <<colour table-header-background>>;
+    border: 1px solid <<colour table-border>>;
+    font-weight: 600;
+}
+
+.rdt-content td {
+    padding: 8px 12px;
+    border: 1px solid <<colour table-border>>;
+    vertical-align: top;
+}
+
+.rdt-content code {
+    font-size: 0.9em;
+    padding: 1px 5px;
+    border-radius: 3px;
+    background: <<colour code-background>>;
+    color: <<colour code-foreground>>;
+}
+
+.rdt-content pre {
+    padding: 12px 16px;
+    border-radius: 4px;
+    overflow-x: auto;
+    font-size: 0.85em;
+    background: <<colour code-background>>;
+}
+
+/* --- Footer --- */
+.rdt-footer {
+    margin-top: 24px;
+    padding-top: 16px;
+    border-top: 1px solid <<colour tiddler-border>>;
+    font-size: 0.85em;
+    color: <<colour muted-foreground>>;
+}
+
+.rdt-footer-heading {
+    font-weight: 600;
+    margin-bottom: 6px;
+    color: <<colour foreground>>;
+}
+
+.rdt-footer-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 16px;
+}
+
+.rdt-footer-links a,
+.rdt-footer-links .rdt-link-btn {
+    color: #d97706;
+    text-decoration: none;
+}
+
+.rdt-footer-links a:hover,
+.rdt-footer-links .rdt-link-btn:hover {
+    text-decoration: underline;
+}
+
+.rdt-footer-hub {
+    margin-top: 12px;
+}
+
+.rdt-footer-hub a,
+.rdt-footer-hub .rdt-link-btn {
+    color: #d97706;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+/* --- Button-as-link (hub context) --- */
+.rdt-link-btn {
+    color: #d97706;
+    text-decoration: none;
+    cursor: pointer;
+    font-size: inherit;
+    font-family: inherit;
+}
+
+.rdt-link-btn:hover {
+    text-decoration: underline;
+}
+
+/* --- Hub page --- */
+.rdt-hub-intro {
+    font-size: 1.05em;
+    color: <<colour muted-foreground>>;
+    margin-bottom: 24px;
+}
+
+.rdt-hub-category {
+    font-size: 1.1em;
+    font-weight: 600;
+    margin: 24px 0 12px 0;
+    color: <<colour foreground>>;
+}
+
+.rdt-hub-category:first-of-type {
+    margin-top: 0;
+}
+
+.rdt-hub-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 12px;
+    margin-bottom: 24px;
+}
+
+.rdt-card {
+    border: 1px solid <<colour tiddler-border>>;
+    border-radius: 6px;
+    padding: 16px;
+    background: <<colour tiddler-background>>;
+    transition: border-color 0.15s, box-shadow 0.15s;
+    cursor: pointer;
+    text-decoration: none;
+    display: block;
+    color: <<colour foreground>>;
+}
+
+.rdt-card:hover {
+    border-color: #d97706;
+    box-shadow: 0 2px 8px rgba(217, 119, 6, 0.1);
+    text-decoration: none;
+    color: <<colour foreground>>;
+}
+
+.rdt-card-title {
+    font-size: 1.05em;
+    font-weight: 600;
+    margin-bottom: 4px;
+}
+
+.rdt-card-version {
+    font-size: 0.75em;
+    color: <<colour muted-foreground>>;
+    font-weight: normal;
+    margin-left: 6px;
+}
+
+.rdt-card-desc {
+    font-size: 0.88em;
+    color: <<colour muted-foreground>>;
+    line-height: 1.4;
+}

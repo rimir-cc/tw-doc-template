@@ -1,0 +1,83 @@
+created: 20260305110542031
+modified: 20260305110542031
+rdt.order: 6
+rdt.plugin-key: doc-template
+rdt.plugin-name: doc template
+rdt.plugin-subtitle: Branded documentation system for rimir plugins
+rdt.section: Reference
+title: $:/plugins/rimir/doc-template/doc/reference
+type: text/vnd.tiddlywiki
+
+<$transclude $tiddler="$:/plugins/rimir/doc-template/templates/page">
+<$fill $name="body">
+
+!! rdt.* fields
+
+|!Field |!Used on |!Required |!Description |
+|`rdt.plugin-key` |All doc tiddlers |Yes |Plugin identifier for filtering (e.g., `runner`) |
+|`rdt.section` |All doc tiddlers |Yes |Section name, used as tab label (e.g., `Overview`, `FAQ`) |
+|`rdt.order` |All doc tiddlers |Yes |Tab sort order (numeric string, `1` = first) |
+|`rdt.plugin-name` |All doc tiddlers |Yes |Display name in header and cards |
+|`rdt.plugin-subtitle` |All doc tiddlers |Yes |Subtitle in header and card description |
+|`rdt.hub-category` |Overview only |Yes* |Machine key for hub grouping |
+|`rdt.hub-order` |Overview only |Yes* |Numeric sort order within the hub |
+|`rdt.hub-category-name` |Overview only |Yes* |Human-readable category heading |
+
+''*'' Required on Overview tiddlers for the plugin to appear in the hub.
+
+!! CSS classes
+
+Shared classes from `$:/plugins/rimir/theme` (prefix `rr-`):
+
+|!Class |!Element |
+|`rr-badge-rect` |Base rectangular badge (used with `rdt-badge-author`, `rdt-badge-version`) |
+|`rr-callout` / `rr-callout-{info,warning,tip,danger}` |Callout box styles |
+|`rr-callout-label` |Callout type label |
+
+Plugin-specific classes (prefix `rdt-`):
+
+|!Class |!Element |
+|`rdt-page` |Outer page wrapper (max-width container) |
+|`rdt-header` |Dark header banner |
+|`rdt-header-title` |Plugin name in header |
+|`rdt-header-subtitle` |Plugin subtitle in header |
+|`rdt-header-meta` |Badge container |
+|`rdt-badge-author` |Author badge color (amber) |
+|`rdt-badge-version` |Version badge color (dark) |
+|`rdt-breadcrumb` |Breadcrumb bar |
+|`rdt-breadcrumb-sep` |Breadcrumb separator (`›`) |
+|`rdt-tabs` |Tab bar container |
+|`rdt-tab` |Individual tab button |
+|`rdt-tab-active` |Active tab highlight (branded amber) |
+|`rdt-content` |Content area below tabs |
+|`rdt-footer` |Footer section |
+|`rdt-link-btn` |Button styled as link (hub context) |
+|`rdt-hub-intro` |Hub intro paragraph |
+|`rdt-hub-category` |Category heading in hub |
+|`rdt-hub-grid` |Card grid container |
+|`rdt-card` |Plugin card button |
+|`rdt-card-title` |Card plugin name |
+|`rdt-card-version` |Card version label |
+|`rdt-card-desc` |Card subtitle text |
+
+!! State tiddlers
+
+|!Tiddler |!Set by |!Description |
+|`$:/state/rimir/doc-template/hub/selected` |Hub card clicks, navigation buttons |Currently selected plugin doc in hub view |
+|`$:/state/rimir/doc-template/tab/<plugin-key>` |Tab clicks |Currently selected tab per plugin |
+
+!! Template parameters
+
+''Page template'' (`$:/plugins/rimir/doc-template/templates/page`):
+
+* Reads all `rdt.*` fields from `currentTiddler`
+* Slot: `body` — the doc section content
+
+''Callout template'' (`$:/plugins/rimir/doc-template/templates/callout`, delegates to `rr-callout` theme classes):
+
+* Parameter `type` — `info` (default), `warning`, `tip`, `danger`
+* Parameter `label` — optional override for the callout label (defaults to uppercase of type)
+* Slot: `body` — the callout content
+
+</$fill>
+</$transclude>

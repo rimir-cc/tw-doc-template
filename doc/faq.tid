@@ -1,0 +1,35 @@
+created: 20260305110542030
+modified: 20260305110542030
+rdt.order: 5
+rdt.plugin-key: doc-template
+rdt.plugin-name: doc template
+rdt.plugin-subtitle: Branded documentation system for rimir plugins
+rdt.section: FAQ
+title: $:/plugins/rimir/doc-template/doc/faq
+type: text/vnd.tiddlywiki
+
+<$transclude $tiddler="$:/plugins/rimir/doc-template/templates/page">
+<$fill $name="body">
+
+!! Q: Why field-based discovery instead of tags?
+
+Tags are global and can collide. Fields like `rdt.section` and `rdt.plugin-key` are namespaced to the doc system, so they won't interfere with other plugins or user tiddlers. Fields also allow richer querying — you can filter by section, plugin, and order in a single filter run.
+
+!! Q: Why does readme.tid need a $tiddler wrapper?
+
+`<$transclude>` does not change `currentTiddler`. When TiddlyWiki renders the plugin's readme (e.g., in the plugin info panel), `currentTiddler` is the readme tiddler itself. The page template reads `rdt.*` fields from `currentTiddler`, so without the `<$tiddler>` wrapper it would find no fields and render nothing.
+
+!! Q: What is the rdt-rendering guard?
+
+When the page template renders tab content, it transcludes the selected tab tiddler. That tiddler's body includes `<$transclude $tiddler="templates/page">` again. Without the guard, this would create infinite recursion. The `rdt-rendering` variable is set to `"yes"` on first render; on the second pass, the template detects this and outputs the raw body slot instead of the full page layout.
+
+!! Q: How does in-place hub navigation work?
+
+The hub stores the selected plugin's Overview tiddler title in `$:/state/rimir/doc-template/hub/selected`. When set, the hub transcludes that tiddler with `rdt-hub-context="yes"`. In this context, all navigation (breadcrumb, footer, related plugins) uses `<$button>` widgets that update the state tiddler instead of `<$link>` widgets that would open new tiddlers.
+
+!! Q: Why use each[] for categories?
+
+The `each[rdt.hub-category]` filter operator deduplicates by field value. Multiple plugins can share a category (e.g., `infrastructure`) — `each[]` ensures the category heading is rendered only once, then all plugins in that category are listed beneath it.
+
+</$fill>
+</$transclude>

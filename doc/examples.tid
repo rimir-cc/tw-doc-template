@@ -1,0 +1,106 @@
+created: 20260305110542030
+modified: 20260305110542030
+rdt.order: 4
+rdt.plugin-key: doc-template
+rdt.plugin-name: doc template
+rdt.plugin-subtitle: Branded documentation system for rimir plugins
+rdt.section: Examples
+title: $:/plugins/rimir/doc-template/doc/examples
+type: text/vnd.tiddlywiki
+
+<$transclude $tiddler="$:/plugins/rimir/doc-template/templates/page">
+<$fill $name="body">
+
+!! Minimal doc tiddler
+
+The smallest possible doc tiddler — just the required fields and a body:
+
+```
+title: $:/plugins/rimir/my-plugin/doc/overview
+type: text/vnd.tiddlywiki
+rdt.plugin-key: my-plugin
+rdt.section: Overview
+rdt.order: 1
+rdt.plugin-name: My Plugin
+rdt.plugin-subtitle: Short description of my plugin
+rdt.hub-category: infrastructure
+rdt.hub-order: 5
+rdt.hub-category-name: Infrastructure
+
+<$transclude $tiddler="$:/plugins/rimir/doc-template/templates/page">
+<$fill $name="body">
+
+!! What it does
+
+Description here.
+
+</$fill>
+</$transclude>
+```
+
+!! Non-overview section
+
+Sections other than Overview omit the hub fields:
+
+```
+title: $:/plugins/rimir/my-plugin/doc/architecture
+type: text/vnd.tiddlywiki
+rdt.plugin-key: my-plugin
+rdt.section: Architecture
+rdt.order: 2
+rdt.plugin-name: My Plugin
+rdt.plugin-subtitle: Short description of my plugin
+
+<$transclude $tiddler="$:/plugins/rimir/doc-template/templates/page">
+<$fill $name="body">
+
+!! Design decisions
+
+Content here.
+
+</$fill>
+</$transclude>
+```
+
+!! Callout usage
+
+Four callout types are available:
+
+```
+<$transclude $tiddler="$:/plugins/rimir/doc-template/templates/callout" type="info">
+<$fill $name="body">Informational note.</$fill>
+</$transclude>
+
+<$transclude $tiddler="$:/plugins/rimir/doc-template/templates/callout" type="warning">
+<$fill $name="body">Warning about a gotcha.</$fill>
+</$transclude>
+
+<$transclude $tiddler="$:/plugins/rimir/doc-template/templates/callout" type="tip">
+<$fill $name="body">Helpful tip.</$fill>
+</$transclude>
+
+<$transclude $tiddler="$:/plugins/rimir/doc-template/templates/callout" type="danger">
+<$fill $name="body">Critical issue or breaking change.</$fill>
+</$transclude>
+```
+
+!! readme.tid pattern
+
+Each plugin's `readme.tid` should wrap in `<$tiddler>` to set `currentTiddler` before transcluding the Overview:
+
+```
+title: $:/plugins/rimir/my-plugin/readme
+
+<$tiddler tiddler="$:/plugins/rimir/my-plugin/doc/overview">
+<$transclude tiddler="$:/plugins/rimir/my-plugin/doc/overview"/>
+</$tiddler>
+```
+
+<$transclude $tiddler="$:/plugins/rimir/doc-template/templates/callout" type="warning">
+<$fill $name="body">
+The `<$tiddler>` wrapper is essential. Without it, `currentTiddler` points to the readme tiddler, and the page template reads the wrong fields.
+</$fill>
+</$transclude>
+
+</$fill>
+</$transclude>

@@ -1,0 +1,47 @@
+created: 20260305110542031
+modified: 20260305110542031
+title: $:/plugins/rimir/doc-template/hub
+type: text/vnd.tiddlywiki
+
+<$let
+  hubState="$:/state/rimir/doc-template/hub/selected"
+  hubSelection={{{ [<hubState>get[text]] }}}
+>
+<%if [<hubSelection>has[rdt.section]] %>
+<$tiddler tiddler=<<hubSelection>>>
+<$let rdt-hub-context="yes">
+<$transclude $tiddler=<<hubSelection>> />
+</$let>
+</$tiddler>
+<%else%>
+<div class="rdt-page">
+
+<div class="rdt-header">
+<div class="rdt-header-title">rimir Plugin Hub</div>
+<div class="rdt-header-subtitle">Documentation for all rimir TiddlyWiki plugins</div>
+<div class="rdt-header-meta">
+<span class="rr-badge-rect rdt-badge-author">rimir</span>
+</div>
+</div>
+
+<div class="rdt-content">
+
+<div class="rdt-hub-intro">
+A collection of plugins extending TiddlyWiki with filesystem watching, command execution, realm filtering, git integration, reusable components, a type system, and organisational modelling.
+</div>
+
+<$list filter="[all[shadows+tiddlers]rdt.section[Overview]has[rdt.hub-category]nsort[rdt.hub-order]each[rdt.hub-category]]" variable="catTiddler">
+<$let cat={{{ [<catTiddler>get[rdt.hub-category]] }}} catName={{{ [<catTiddler>get[rdt.hub-category-name]] }}}>
+<div class="rdt-hub-category"><$text text=<<catName>>/></div>
+<div class="rdt-hub-grid">
+<$list filter="[all[shadows+tiddlers]rdt.section[Overview]rdt.hub-category<cat>sort[rdt.plugin-name]]">
+<$macrocall $name="rdt.plugin-card" title=<<currentTiddler>>/>
+</$list>
+</div>
+</$let>
+</$list>
+
+</div>
+</div>
+<%endif%>
+</$let>
