@@ -21,6 +21,14 @@ Renders plugin documentation with a consistent layout featuring a dark header, t
 
 Create `doc-overview.tid` in your plugin with `rdt.plugin-key`, `rdt.section`, `rdt.plugin-name`, `rdt.plugin-subtitle`, `rdt.hub-category` fields. The version is read automatically from `plugin.info`. Transclude `$:/plugins/rimir/doc-template/templates/page` and fill the `body` slot. The hub auto-discovers it.
 
+## Plugin Library
+
+Install from the [rimir plugin library](https://rimir-cc.github.io/tw-plugin-library/) via *Control Panel → Plugins → Get more plugins*.
+
+## Demo
+
+Try this plugin in the [live demo wiki](https://rimir-cc.github.io/tw-demo/).
+
 ## License
 
 MIT -- see [LICENSE.md](LICENSE.md)

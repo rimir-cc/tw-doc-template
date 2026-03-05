@@ -4,6 +4,7 @@
     "description": "Branded documentation system for rimir plugins",
     "version": "0.1.0",
     "author": "rimir",
+    "source": "https://github.com/rimir-cc/tw-doc-template",
     "plugin-type": "plugin",
     "list": "readme settings",
     "dependents": "$:/plugins/rimir/theme"
