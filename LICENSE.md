@@ -1,10 +1,3 @@
-created: 20260305110542033
-modified: 20260305110542033
-title: $:/plugins/rimir/doc-template/license
-type: text/vnd.tiddlywiki
-
-\rules only
-
 MIT License
 
 Copyright (c) since 2026 rimir-cc (https://github.com/rimir-cc)
