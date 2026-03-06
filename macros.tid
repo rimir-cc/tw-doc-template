@@ -5,8 +5,12 @@ title: $:/plugins/rimir/doc-template/macros
 type: text/vnd.tiddlywiki
 
 \procedure rdt.plugin-card(title)
+<$let cardPluginKey={{{ [<title>get[rdt.plugin-key]] }}} cardPluginTitle={{{ [[$:/plugins/rimir/]addsuffix<cardPluginKey>] }}}>
+<$draggable tiddler=<<cardPluginTitle>> class="rdt-card-draggable">
 <$button class="tc-btn-invisible rdt-card" set="$:/state/rimir/doc-template/hub/selected" setTo=<<title>>>
-<$let cardPluginKey={{{ [<title>get[rdt.plugin-key]] }}}><div class="rdt-card-title"><$text text={{{ [<title>get[rdt.plugin-name]] }}}/><span class="rdt-card-version">v<$text text={{{ [[$:/plugins/rimir/]addsuffix<cardPluginKey>get[version]] }}}/></span></div></$let>
+<div class="rdt-card-title"><$text text={{{ [<title>get[rdt.plugin-name]] }}}/><span class="rdt-card-version">v<$text text={{{ [<cardPluginTitle>get[version]] }}}/></span></div>
 <div class="rdt-card-desc"><$text text={{{ [<title>get[rdt.plugin-subtitle]] }}}/></div>
 </$button>
+</$draggable>
+</$let>
 \end

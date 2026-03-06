@@ -1,8 +1,8 @@
 {
     "title": "$:/plugins/rimir/doc-template",
-    "name": "Doc Template",
+    "name": "doc template",
     "description": "Branded documentation system for rimir plugins",
-    "version": "0.1.1",
+    "version": "0.1.2",
     "author": "rimir",
     "source": "https://github.com/rimir-cc/tw-doc-template",
     "plugin-type": "plugin",

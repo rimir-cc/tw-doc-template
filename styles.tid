@@ -306,3 +306,17 @@ type: text/vnd.tiddlywiki
     color: <<colour muted-foreground>>;
     line-height: 1.4;
 }
+
+/* --- Draggable cards --- */
+.rdt-card-draggable {
+    cursor: grab;
+}
+
+.rdt-card-draggable.tc-dragging {
+    opacity: 0.4;
+    cursor: grabbing;
+}
+
+.rdt-card-draggable .rdt-card {
+    cursor: inherit;
+}

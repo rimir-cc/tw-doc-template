@@ -30,6 +30,12 @@ type: text/vnd.tiddlywiki
 A collection of plugins extending TiddlyWiki with filesystem watching, command execution, realm filtering, git integration, reusable components, a type system, and organisational modelling.
 </div>
 
+<$transclude $tiddler="$:/plugins/rimir/theme/callout" type="tip" label="Install">
+<$fill $name="body">
+Drag any card into another ~TiddlyWiki browser tab to install the plugin.
+</$fill>
+</$transclude>
+
 <$list filter="[all[shadows+tiddlers]rdt.section[Overview]has[rdt.hub-category]nsort[rdt.hub-order]each[rdt.hub-category]]" variable="catTiddler">
 <$let cat={{{ [<catTiddler>get[rdt.hub-category]] }}} catName={{{ [<catTiddler>get[rdt.hub-category-name]] }}}>
 <div class="rdt-hub-category"><$text text=<<catName>>/></div>
