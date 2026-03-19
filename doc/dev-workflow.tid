@@ -63,6 +63,67 @@ All doc-template files are plugin shadow tiddlers. Any change requires a server 
 </$fill>
 </$transclude>
 
+!! LLM documentation (progressive disclosure)
+
+Plugins can ship documentation tiddlers specifically designed for LLM consumption via the llm-connect tool system. These enable the LLM to learn about plugin mechanics on demand rather than through a bloated system prompt.
+
+!!! Namespace convention
+
+LLM doc tiddlers must live ''outside'' the protected `$:/plugins/rimir/` prefix so they are accessible through llm-connect's restricted wiki proxy. The convention is:
+
+```
+$:/rimir/llm-doc/<pluginName>/<topic>
+```
+
+Examples:
+* `$:/rimir/llm-doc/appify/overview`
+* `$:/rimir/llm-doc/appify/channels`
+* `$:/rimir/llm-doc/runner/actions`
+
+The tiddlers still ship as shadow tiddlers inside the plugin (files in `llm-doc/` directory). The `title:` field in each `.tid` file overrides the path-derived title.
+
+!!! Why not `$:/plugins/rimir/`?
+
+The llm-connect protection filter blocks `prefix[$:/plugins/rimir/]` by default — this protects plugin internals (JS modules, config defaults, UI templates) from LLM tool access. LLM docs need to be readable by tools, so they use the `$:/rimir/llm-doc/` namespace which is outside the filter.
+
+Similarly, runtime configs that the LLM might need to read/write should be in `$:/config/rimir/` (standard TW convention), not inside the plugin.
+
+!!! Structure
+
+Each doc tiddler is tagged `$:/tags/rimir/<pluginName>/llm-doc` for plugin-specific discovery. The plugin provides a guide tool that lists available docs with descriptions.
+
+|!Field |!Description |
+|`tags` |`$:/tags/rimir/<pluginName>/llm-doc` |
+|`description` |One-line summary — the LLM reads this to decide relevance |
+|`llm-sort` |Sort order (numeric string, e.g., `01`, `02`) |
+
+!!! Progressive disclosure pattern
+
+Docs form a browsable tree:
+
+# The LLM calls a guide tool → gets a table of contents (title + description per doc)
+# The LLM picks a relevant doc → calls `get_tiddler` to read it
+# The doc may reference deeper docs → the LLM follows the trail as needed
+# The LLM stops drilling when it has enough context to act
+
+This keeps token usage minimal — the LLM only reads what it needs for the current task.
+
+!!! Making plugin tiddlers LLM-accessible
+
+Some tiddlers must live under `$:/plugins/rimir/` (they're plugin shadows) but still need to be readable/writable by the LLM — for example, view tiddlers that the LLM modifies to change app content, or app definition tiddlers the LLM inspects.
+
+Tag these with ''`$:/tags/rimir/llm-accessible`''. The default protection filter in llm-connect excludes this tag:
+
+```
+[all[shadows+tiddlers]prefix[$:/plugins/rimir/]!tag[$:/tags/rimir/llm-accessible]]
+```
+
+Use this tag intentionally — only on tiddlers that make sense for the LLM to read or modify (view templates, app configs, sample data). Never tag JS modules, internal UI, or security-sensitive tiddlers.
+
+!!! Wikitext in doc tiddlers
+
+Doc tiddlers can contain wikitext that renders context-specific information (e.g., a `$list` showing the current app's channels). The LLM can use `wikitext_render` on such content to get live, contextual output. This bridges static documentation with dynamic state.
+
 !! Version history
 
 |!Version |!Changes |
