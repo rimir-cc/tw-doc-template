@@ -82,11 +82,11 @@ Examples:
 
 The tiddlers still ship as shadow tiddlers inside the plugin (files in `llm-doc/` directory). The `title:` field in each `.tid` file overrides the path-derived title.
 
-!!! Why not `$:/plugins/rimir/`?
+!!! Why `$:/rimir/llm-doc/`?
 
-The llm-connect protection filter blocks `prefix[$:/plugins/rimir/]` by default — this protects plugin internals (JS modules, config defaults, UI templates) from LLM tool access. LLM docs need to be readable by tools, so they use the `$:/rimir/llm-doc/` namespace which is outside the filter.
+LLM doc tiddlers use the `$:/rimir/llm-doc/` namespace rather than living under `$:/plugins/rimir/`. This keeps them separate from plugin internals and makes them easy to discover via tag filters. The llm-connect deny filter does not block `$:/plugins/rimir/` by default, but users or specific chats may choose to exclude plugin namespaces via the excluded-plugins setting — the `$:/rimir/llm-doc/` namespace is unaffected by those exclusions.
 
-Similarly, runtime configs that the LLM might need to read/write should be in `$:/config/rimir/` (standard TW convention), not inside the plugin.
+Runtime configs that the LLM might need to read/write should be in `$:/config/rimir/` (standard TW convention), not inside the plugin.
 
 !!! Structure
 
@@ -108,17 +108,11 @@ Docs form a browsable tree:
 
 This keeps token usage minimal — the LLM only reads what it needs for the current task.
 
-!!! Making plugin tiddlers LLM-accessible
+!!! Plugin shadow tiddlers and LLM access
 
-Some tiddlers must live under `$:/plugins/rimir/` (they're plugin shadows) but still need to be readable/writable by the LLM — for example, view tiddlers that the LLM modifies to change app content, or app definition tiddlers the LLM inspects.
+Plugin shadow tiddlers under `$:/plugins/rimir/` are accessible to the LLM by default (the deny filter only blocks `[tag[sensitive]]`). Users can restrict access to specific plugin namespaces via the excluded-plugins checkbox in llm-connect settings, or by extending the deny filter.
 
-Tag these with ''`$:/tags/rimir/llm-accessible`''. The default protection filter in llm-connect excludes this tag:
-
-```
-[all[shadows+tiddlers]prefix[$:/plugins/rimir/]!tag[$:/tags/rimir/llm-accessible]]
-```
-
-Use this tag intentionally — only on tiddlers that make sense for the LLM to read or modify (view templates, app configs, sample data). Never tag JS modules, internal UI, or security-sensitive tiddlers.
+The appify clone widgets strip `$:/tags/rimir/llm-accessible` from cloned tiddlers — this tag is a legacy marker from when the deny filter blocked all rimir plugin shadows. It has no effect on the current protection filter but is still cleaned up during cloning to avoid stale tags on user tiddlers.
 
 !!! Wikitext in doc tiddlers
 
