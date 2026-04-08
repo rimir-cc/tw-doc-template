@@ -1,0 +1,34 @@
+title: $:/plugins/rimir/doc-template/test/test-callout-default
+description: Test callout template with default type (info) and auto-generated uppercase label
+type: text/vnd.tiddlywiki-multiple
+tags: [[$:/tags/wiki-test-spec]]
+
+title: $:/test/callout-template
+type: text/vnd.tiddlywiki
+
+\parameters (type:"info", label:"")
+\whitespace trim
+<$let
+  calloutClass={{{ [[rr-callout rr-callout-]addsuffix<type>] }}}
+  resolvedLabel={{{ [<label>!is[blank]] :else[<type>uppercase[]] }}}
+>
+<div class=<<calloutClass>>>
+<div class="rr-callout-label"><$text text=<<resolvedLabel>>/></div>
+<$slot $name="body">
+//No callout content.//
+</$slot>
+</div>
+</$let>
++
+title: Output
+
+\whitespace trim
+<$transclude $tiddler="$:/test/callout-template">
+<$fill $name="body">Test content</$fill>
+</$transclude>
++
+title: ExpectedResult
+
+<p><div class="rr-callout rr-callout-info"><div class="rr-callout-label">INFO</div>Test content</div></p>
++
+title: Narrative

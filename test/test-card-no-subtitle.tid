@@ -1,0 +1,37 @@
+title: $:/plugins/rimir/doc-template/test/test-card-no-subtitle
+description: Test rdt.plugin-card renders gracefully when doc tiddler has no subtitle field
+type: text/vnd.tiddlywiki-multiple
+tags: [[$:/tags/wiki-test-spec]]
+
+title: $:/plugins/rimir/nosub
+version: 2.0.0
+type: text/vnd.tiddlywiki
+
+Plugin for subtitle test
++
+title: NoSubDoc
+rdt.plugin-key: nosub
+rdt.plugin-name: no subtitle plugin
+type: text/vnd.tiddlywiki
+
++
+title: Output
+
+\whitespace trim
+\procedure rdt.plugin-card(title)
+\whitespace trim
+<$let cardPluginKey={{{ [<title>get[rdt.plugin-key]] }}} cardPluginTitle={{{ [[$:/plugins/rimir/]addsuffix<cardPluginKey>] }}}>
+<$button class="tc-btn-invisible rdt-card" set="$:/state/rimir/doc-template/hub/selected" setTo=<<title>>>
+<div class="rdt-card-title"><$text text={{{ [<title>get[rdt.plugin-name]] }}}/><span class="rdt-card-version">v<$text text={{{ [<cardPluginTitle>get[version]] }}}/></span></div>
+<div class="rdt-card-desc"><$text text={{{ [<title>get[rdt.plugin-subtitle]] }}}/></div>
+</$button>
+</$let>
+\end
+
+<$transclude $variable="rdt.plugin-card" title="NoSubDoc"/>
++
+title: ExpectedResult
+
+<p><button class="tc-btn-invisible rdt-card"><div class="rdt-card-title">no subtitle plugin<span class="rdt-card-version">v2.0.0</span></div><div class="rdt-card-desc"></div></button></p>
++
+title: Narrative

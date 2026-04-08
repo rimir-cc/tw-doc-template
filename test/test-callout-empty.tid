@@ -1,0 +1,33 @@
+title: $:/plugins/rimir/doc-template/test/test-callout-empty
+description: Test callout template renders default slot content when no body fill provided
+type: text/vnd.tiddlywiki-multiple
+tags: [[$:/tags/wiki-test-spec]]
+
+title: $:/test/callout-template
+type: text/vnd.tiddlywiki
+
+\parameters (type:"info", label:"")
+\whitespace trim
+<$let
+  calloutClass={{{ [[rr-callout rr-callout-]addsuffix<type>] }}}
+  resolvedLabel={{{ [<label>!is[blank]] :else[<type>uppercase[]] }}}
+>
+<div class=<<calloutClass>>>
+<div class="rr-callout-label"><$text text=<<resolvedLabel>>/></div>
+<$slot $name="body">
+//No callout content.//
+</$slot>
+</div>
+</$let>
++
+title: Output
+
+\whitespace trim
+<$transclude $tiddler="$:/test/callout-template" type="danger">
+</$transclude>
++
+title: ExpectedResult
+
+<p><div class="rr-callout rr-callout-danger"><div class="rr-callout-label">DANGER</div><em>No callout content.</em></div></p>
++
+title: Narrative

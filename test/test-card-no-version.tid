@@ -1,0 +1,37 @@
+title: $:/plugins/rimir/doc-template/test/test-card-no-version
+description: Test rdt.plugin-card renders gracefully when plugin tiddler has no version field
+type: text/vnd.tiddlywiki-multiple
+tags: [[$:/tags/wiki-test-spec]]
+
+title: $:/plugins/rimir/noverplugin
+type: text/vnd.tiddlywiki
+
+Plugin with no version field
++
+title: NoVerDoc
+rdt.plugin-key: noverplugin
+rdt.plugin-name: no version plugin
+rdt.plugin-subtitle: Plugin without version
+type: text/vnd.tiddlywiki
+
++
+title: Output
+
+\whitespace trim
+\procedure rdt.plugin-card(title)
+\whitespace trim
+<$let cardPluginKey={{{ [<title>get[rdt.plugin-key]] }}} cardPluginTitle={{{ [[$:/plugins/rimir/]addsuffix<cardPluginKey>] }}}>
+<$button class="tc-btn-invisible rdt-card" set="$:/state/rimir/doc-template/hub/selected" setTo=<<title>>>
+<div class="rdt-card-title"><$text text={{{ [<title>get[rdt.plugin-name]] }}}/><span class="rdt-card-version">v<$text text={{{ [<cardPluginTitle>get[version]] }}}/></span></div>
+<div class="rdt-card-desc"><$text text={{{ [<title>get[rdt.plugin-subtitle]] }}}/></div>
+</$button>
+</$let>
+\end
+
+<$transclude $variable="rdt.plugin-card" title="NoVerDoc"/>
++
+title: ExpectedResult
+
+<p><button class="tc-btn-invisible rdt-card"><div class="rdt-card-title">no version plugin<span class="rdt-card-version">v</span></div><div class="rdt-card-desc">Plugin without version</div></button></p>
++
+title: Narrative
